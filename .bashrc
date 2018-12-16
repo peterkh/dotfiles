@@ -65,15 +65,13 @@ if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
-if ! type thefuck >/dev/null 2>/dev/null
-then
+if [ -f /usr/local/bin/fuck ]; then
   eval $(thefuck --alias)
 fi
 
 #Golang stuff
 
-if ! type go >/dev/null 2>/dev/null
-then
+if [ -f /usr/local/go/bin/go ]; then
   export GOPATH=$(go env GOPATH)
   export PATH=$PATH:$(go env GOPATH)/bin
 fi
@@ -88,7 +86,4 @@ fi
 
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
-if ! type kubectl >/dev/null 2>/dev/null
-then
-  source <(kubectl completion bash)
-fi
+source <(kubectl completion bash)
