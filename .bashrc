@@ -54,9 +54,9 @@ fi
 alias ls='ls --color=auto'
 
 # some more ls aliases
-alias ll='ls -l'
-alias la='ls -A'
-alias l='ls -CF'
+#alias ll='ls -l'
+#alias la='ls -A'
+#alias l='ls -CF'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -65,6 +65,30 @@ if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
-[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
-source <(kubectl completion bash)
+if ! type thefuck >/dev/null 2>/dev/null
+then
+  eval $(thefuck --alias)
+fi
 
+#Golang stuff
+
+if ! type go >/dev/null 2>/dev/null
+then
+  export GOPATH=$(go env GOPATH)
+  export PATH=$PATH:$(go env GOPATH)/bin
+fi
+
+export AWS_REGION=ap-southeast-2
+
+# bash-my-aws
+if [ -d ~/.bash-my-aws/lib/ ]; then
+  for f in ~/.bash-my-aws/lib/*-functions; do source $f; done
+  source ~/.bash-my-aws/bash_completion.sh
+fi
+
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+
+if ! type kubectl >/dev/null 2>/dev/null
+then
+  source <(kubectl completion bash)
+fi
