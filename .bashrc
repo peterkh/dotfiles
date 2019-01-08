@@ -71,7 +71,7 @@ fi
 
 #Golang stuff
 
-if [ -f /usr/local/go/bin/go ]; then
+if [ -f /usr/local/bin/go ]; then
   export GOPATH=$(go env GOPATH)
   export PATH=$PATH:$(go env GOPATH)/bin
 fi
