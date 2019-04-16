@@ -20,27 +20,44 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-#case "$TERM" in
-#xterm-color)
-#    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-#    ;;
-#*)
-#    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-#    ;;
-#esac
+# Set up prompt including git branch.
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
 
-# Comment in the above and uncomment this below for a color prompt
-PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+#PROMPT_COMMAND="__prompt_command; ${PROMPT_COMMAND}"
+PROMPT_COMMAND=__prompt_command
 
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
-    ;;
-*)
-    ;;
-esac
+__prompt_command() {
+    local exit="$?"             # This needs to be first
+    PS1=""
+
+    local RCol='\[\e[0m\]'
+
+    local Red='\[\e[0;31m\]'
+    local Gre='\[\e[0;32m\]'
+    local BGre='\[\e[1;32m\]'
+    local BYel='\[\e[1;33m\]'
+    local BBlu='\[\e[1;34m\]'
+
+    if [ $exit != 0 ]; then
+        PS1+="${Red}\u${RCol}"      # Add red if exit code non 0
+    else
+        PS1+="${Gre}\u${RCol}"
+    fi
+
+    # If this is an xterm set the title to user@host:dir
+    case "$TERM" in xterm*|rxvt*)
+      echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"
+      ;;
+    *)
+      ;;
+    esac
+
+    PS1+="${BGre}@\h${RCol}:${BBlu}\w${BYel}$(parse_git_branch)${RCol}$ "
+}
+
+
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
