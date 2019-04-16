@@ -1,4 +1,6 @@
 
+alias ls='ls --color=auto'
+
 alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
 
 alias k='kubectl'

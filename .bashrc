@@ -15,17 +15,11 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(lesspipe)"
 
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
 # Set up prompt including git branch.
 parse_git_branch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
-#PROMPT_COMMAND="__prompt_command; ${PROMPT_COMMAND}"
 PROMPT_COMMAND=__prompt_command
 
 __prompt_command() {
@@ -68,27 +62,20 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-alias ls='ls --color=auto'
-
-# some more ls aliases
-#alias ll='ls -l'
-#alias la='ls -A'
-#alias l='ls -CF'
-
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
 if [ -f /usr/local/bin/fuck ]; then
   eval $(thefuck --alias)
 fi
 
 #Golang stuff
-
-if [ -f /usr/local/bin/go ]; then
+if command -v go >/dev/null 2>&1; then
   export GOPATH=$(go env GOPATH)
   export PATH=$PATH:$(go env GOPATH)/bin
 fi
@@ -101,11 +88,12 @@ if [ -d ~/.bash-my-aws/lib/ ]; then
   source ~/.bash-my-aws/bash_completion.sh
 fi
 
-[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
-
 # proxy settings
 if [ -f ~/.proxy-settings ]; then
   source ~/.proxy-settings
 fi
 
-source <(kubectl completion bash)
+if command -v kubectl >/dev/null 2>&1; then
+  source <(kubectl completion bash)
+fi
+
