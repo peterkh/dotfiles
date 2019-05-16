@@ -15,6 +15,29 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(lesspipe)"
 
+local_proxy_on() {
+  export http_proxy=http://localhost:3128
+  export HTTP_PROXY=http://localhost:3128
+  export https_proxy=http://localhost:3128
+  export HTTPS_PROXY=http://localhost:3128
+}
+local_proxy_off() {
+  unset http_proxy
+  unset HTTP_PROXY
+  unset https_proxy
+  unset HTTPS_PROXY
+}
+
+# curl a GCP API with your current access token
+gapi_curl() {
+  TOKEN=$(gcloud auth print-access-token)
+  JSON=$(curl -s -H "Authorization: Bearer ${TOKEN}" "$@")
+  echo $JSON | jq
+}
+
+# curl a GCP IAM protected endpoint
+alias gcurl='curl --header "Authorization: Bearer $(gcloud config config-helper --format=value\(credential.id_token\))"'
+
 # Set up prompt including git branch.
 parse_git_branch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
@@ -95,5 +118,10 @@ fi
 
 if command -v kubectl >/dev/null 2>&1; then
   source <(kubectl completion bash)
+fi
+
+# docker for windows
+if uname -r | grep Microsoft > /dev/null; then
+  export DOCKER_HOST=localhost:2375
 fi
 
