@@ -43,6 +43,12 @@ parse_git_branch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
+virtualenv_name() {
+  if [[ -n $VIRTUAL_ENV ]]; then
+    echo "($(basename $VIRTUAL_ENV))"
+  fi
+}
+
 PROMPT_COMMAND=__prompt_command
 
 __prompt_command() {
@@ -56,6 +62,7 @@ __prompt_command() {
     local BGre='\[\e[1;32m\]'
     local BYel='\[\e[1;33m\]'
     local BBlu='\[\e[1;34m\]'
+    local BCya='\[\e[1;36m\]'
 
     if [ $exit != 0 ]; then
         PS1+="${Red}\u${RCol}"      # Add red if exit code non 0
@@ -71,7 +78,7 @@ __prompt_command() {
       ;;
     esac
 
-    PS1+="${BGre}@\h${RCol}:${BBlu}\w${BYel}$(parse_git_branch)${RCol}$ "
+    PS1+="${BGre}@\h${RCol}:${BBlu}\w${BYel}$(parse_git_branch)${BCya}$(virtualenv_name)${RCol}$ "
 }
 
 
