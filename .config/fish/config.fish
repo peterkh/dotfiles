@@ -6,7 +6,8 @@ set -x PATH ~/.gem/bin $PATH
 
 set -x PATH /usr/local/opt/coreutils/libexec/gnubin $PATH
 set -x PATH /usr/local/opt/grep/libexec/gnubin $PATH
+set -x PATH /usr/local/opt/postgresql@11/bin $PATH
 
 set -x GOPATH (go env GOPATH)
 
-source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.fish.inc
+source ~/google-cloud-sdk/path.fish.inc

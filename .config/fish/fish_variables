@@ -1,13 +1,8 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
-SETUVAR --export ALL_PROXY:http\x3a//localhost\x3a3128
-SETUVAR --export FTP_PROXY:http\x3a//localhost\x3a3128
-SETUVAR --export HTTPS_PROXY:http\x3a//localhost\x3a3128
-SETUVAR --export HTTP_PROXY:http\x3a//localhost\x3a3128
 SETUVAR __fish_init_2_39_8:\x1d
 SETUVAR __fish_init_2_3_0:\x1d
 SETUVAR __fish_init_3_x:\x1d
-SETUVAR --export all_proxy:http\x3a//localhost\x3a3128
 SETUVAR fish_color_autosuggestion:555\x1ebrblack
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:005fd7
@@ -35,7 +30,4 @@ SETUVAR fish_pager_color_completion:\x1d
 SETUVAR fish_pager_color_description:B3A06D\x1eyellow
 SETUVAR fish_pager_color_prefix:white\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
-SETUVAR --export ftp_proxy:http\x3a//localhost\x3a3128
-SETUVAR --export http_proxy:http\x3a//localhost\x3a3128
-SETUVAR --export https_proxy:http\x3a//localhost\x3a3128
 SETUVAR theme_color_scheme:solarized

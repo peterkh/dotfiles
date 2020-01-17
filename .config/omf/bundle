@@ -1,4 +1,5 @@
+# package proxy
 package bass
-package proxy
+package https://github.com/FabioAntunes/fish-nvm
 theme bobthefish
 theme default
