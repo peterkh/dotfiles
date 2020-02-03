@@ -11,3 +11,5 @@ set -x PATH /usr/local/opt/postgresql@11/bin $PATH
 set -x GOPATH (go env GOPATH)
 
 source ~/google-cloud-sdk/path.fish.inc
+
+fzf_key_bindings
