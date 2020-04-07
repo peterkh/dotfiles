@@ -1,3 +1,5 @@
+set shell=/bin/sh
+
 " Create the autocmd group used by all my autocmds (cleared when sourcing vimrc)
 augroup vimrc
   autocmd!
@@ -24,8 +26,7 @@ Plug 'Yggdroot/indentLine'                                        " Show indente
 Plug 'godlygeek/tabular'                                          " Better tab
 Plug 'scrooloose/nerdtree'                                        " File tree browser
 Plug 'scrooloose/nerdcommenter'                                   " Code commenter
-
-
+Plug 'dag/vim-fish'
 " Initialize plugin system
 call plug#end()
 

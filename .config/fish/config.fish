@@ -7,20 +7,32 @@ case Darwin
   set -x PATH /usr/local/opt/postgresql@11/bin $PATH
 end
 
+# Set up GEM_HOME
+if not test -d ~/.gem/bin
+  mkdir -p ~/.gem/bin
+end
 set -x GEM_HOME ~/.gem
 set -x PATH ~/.gem/bin $PATH
+
+if not test -d ~/bin
+  mkdir ~/bin
+end
 set -x PATH ~/bin $PATH
 
-
+# Set up GoLang
 if type -q go
   set -x GOPATH (go env GOPATH)
 end
 
+# gcloud autocomplete
 if test -f ~/google-cloud-sdk/path.fish.inc
   source ~/google-cloud-sdk/path.fish.inc
 end
+
 fzf_key_bindings
 
-source (pyenv init - | psub)
-
-eval (python -m virtualfish)
+# Python set up
+if type -q pyenv
+  source (pyenv init - | psub)
+  eval (python -m virtualfish)
+end
