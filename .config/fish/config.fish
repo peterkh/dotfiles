@@ -5,6 +5,11 @@ case Darwin
   set -x PATH /usr/local/opt/coreutils/libexec/gnubin $PATH
   set -x PATH /usr/local/opt/grep/libexec/gnubin $PATH
   set -x PATH /usr/local/opt/postgresql@11/bin $PATH
+case Linux
+  if test -d ~/.pyenv
+    set -x PYENV_ROOT $HOME/.pyenv
+    set -x PATH $PYENV_ROOT/bin $PATH
+  end
 end
 
 # Set up GEM_HOME
@@ -34,5 +39,8 @@ fzf_key_bindings
 # Python set up
 if type -q pyenv
   source (pyenv init - | psub)
-  eval (python -m virtualfish)
 end
+if type -q vf && ! test -f ~/.config/fish/conf.d/virtualfish-loader.fish
+  vf install
+end
+
