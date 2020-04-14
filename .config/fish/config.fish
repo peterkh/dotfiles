@@ -5,6 +5,7 @@ case Darwin
   set -x PATH /usr/local/opt/coreutils/libexec/gnubin $PATH
   set -x PATH /usr/local/opt/grep/libexec/gnubin $PATH
   set -x PATH /usr/local/opt/postgresql@11/bin $PATH
+  set -x PATH /usr/local/opt/gnu-which/libexec/gnubin $PATH
 case Linux
   if test -d ~/.pyenv
     set -x PYENV_ROOT $HOME/.pyenv
