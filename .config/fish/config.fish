@@ -6,6 +6,7 @@ case Darwin
   set -x PATH /usr/local/opt/grep/libexec/gnubin $PATH
   set -x PATH /usr/local/opt/postgresql@11/bin $PATH
   set -x PATH /usr/local/opt/gnu-which/libexec/gnubin $PATH
+  set -x PATH /usr/local/opt/gnu-tar/libexec/gnubin $PATH
 case Linux
   if test -d ~/.pyenv
     set -x PYENV_ROOT $HOME/.pyenv
@@ -26,8 +27,19 @@ end
 set -x PATH ~/bin $PATH
 
 # Set up GoLang
+if not test -d ~/go/bin
+  mkdir -p ~/go.bin
+end
+
+set -x PATH ~/go/bin $PATH
+
 if type -q go
   set -x GOPATH (go env GOPATH)
+end
+
+# Kube stuff
+if test -d /usr/local/kubebuilder/bin
+  set -x PATH /usr/local/kubebuilder/bin $PATH
 end
 
 # gcloud autocomplete
@@ -45,3 +57,6 @@ if type -q vf && ! test -f ~/.config/fish/conf.d/virtualfish-loader.fish
   vf install
 end
 
+if type -q register-python-argcomplete
+  register-python-argcomplete --shell fish az|grep -v _ARGCOMPLETE_DFS| .
+end
