@@ -7,9 +7,16 @@ case Darwin
   set -x PATH /usr/local/opt/postgresql@11/bin $PATH
   set -x PATH /usr/local/opt/gnu-which/libexec/gnubin $PATH
 case Linux
+  set -x PATH ~/.local/bin $PATH
   if test -d ~/.pyenv
     set -x PYENV_ROOT $HOME/.pyenv
     set -x PATH $PYENV_ROOT/bin $PATH
+  end
+  if test -d /usr/local/go
+    set -x PATH /usr/local/go/bin $PATH
+  end
+  if test -d ~/.dotnet/tools
+    set -x PATH $HOME/.dotnet/tools $PATH
   end
 end
 
@@ -45,3 +52,4 @@ if type -q vf && ! test -f ~/.config/fish/conf.d/virtualfish-loader.fish
   vf install
 end
 
+fish_ssh_agent
