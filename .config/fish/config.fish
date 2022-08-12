@@ -1,14 +1,20 @@
 switch (uname -s)
 case Darwin
+  set HOME_BREW_PREFIX (/opt/homebrew/bin/brew --prefix)
   set -x PATH /usr/local/bin/ $PATH
   set -x PATH /usr/local/sbin/ $PATH
   set -x PATH ~/Library/Python/2.7/bin/ $PATH
   set -x PATH ~/Library/Python/3.7/bin/ $PATH
-  set -x PATH /usr/local/opt/coreutils/libexec/gnubin $PATH
-  set -x PATH /usr/local/opt/grep/libexec/gnubin $PATH
-  set -x PATH /usr/local/opt/postgresql@11/bin $PATH
-  set -x PATH /usr/local/opt/gnu-which/libexec/gnubin $PATH
-  set -x PATH /usr/local/opt/gnu-tar/libexec/gnubin $PATH
+  set -x PATH $HOME_BREW_PREFIX/opt/coreutils/libexec/gnubin $PATH
+  set -x PATH $HOME_BREW_PREFIX/opt/grep/libexec/gnubin $PATH
+  set -x PATH $HOME_BREW_PREFIX/opt/postgresql@11/bin $PATH
+  set -x PATH $HOME_BREW_PREFIX/opt/gnu-which/libexec/gnubin $PATH
+  set -x PATH $HOME_BREW_PREFIX/opt/gnu-tar/libexec/gnubin $PATH
+  set -x PATH $HOME_BREW_PREFIX/opt/gnu-sed/libexec/gnubin $PATH
+  set -x PATH $HOME_BREW_PREFIX/bin $PATH
+  set -x PATH "/Applications/Visual Studio Code.app/Contents/Resources/app/bin" $PATH
+  set -x PATH /usr/local/share/dotnet $PATH
+  set -x PATH ~/.dotnet/tools $PATH
 case Linux
   set -x PATH ~/.local/bin $PATH
   if test -d ~/.pyenv
