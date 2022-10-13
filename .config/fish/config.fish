@@ -12,6 +12,7 @@ case Darwin
   set -x PATH $HOME_BREW_PREFIX/opt/gnu-tar/libexec/gnubin $PATH
   set -x PATH $HOME_BREW_PREFIX/opt/gnu-sed/libexec/gnubin $PATH
   set -x PATH $HOME_BREW_PREFIX/bin $PATH
+  set -x PATH $HOME_BREW_PREFIX/sbin $PATH
   set -x PATH "/Applications/Visual Studio Code.app/Contents/Resources/app/bin" $PATH
   set -x PATH /usr/local/share/dotnet $PATH
   set -x PATH ~/.dotnet/tools $PATH
@@ -78,3 +79,5 @@ if type -q register-python-argcomplete
 else if type -q register-python-argcomplete3
   register-python-argcomplete3 --shell fish az|grep -v _ARGCOMPLETE_DFS| .
 end
+
+string match -q "$TERM_PROGRAM" "vscode" and . (code --locate-shell-integration-path fish)
