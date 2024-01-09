@@ -63,7 +63,7 @@ if test -f ~/google-cloud-sdk/path.fish.inc
   source ~/google-cloud-sdk/path.fish.inc
 end
 
-fzf_key_bindings
+status --is-interactive; and fzf_key_bindings
 
 # Python set up
 if type -q pyenv
