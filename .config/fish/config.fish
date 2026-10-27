@@ -2,11 +2,14 @@
 fish_add_path -gPa ~/.docker/bin
 # End of Docker Desktop section.
 
+set -l os (uname -s)
+
 # fish_add_path -gPm: edit $PATH directly (not universal fish_user_paths),
 # moving existing entries rather than duplicating them in nested shells
-switch (uname -s)
+switch $os
 case Darwin
-  set HOME_BREW_PREFIX (/opt/homebrew/bin/brew --prefix)
+  # hardcoded rather than `brew --prefix`, which costs ~15ms on every shell
+  set HOME_BREW_PREFIX /opt/homebrew
   fish_add_path -gPm /usr/local/bin
   fish_add_path -gPm $HOME_BREW_PREFIX/opt/coreutils/libexec/gnubin
   fish_add_path -gPm $HOME_BREW_PREFIX/opt/grep/libexec/gnubin
@@ -41,41 +44,37 @@ if not test -d ~/bin
 end
 fish_add_path -gPm ~/bin
 
-# Set up GoLang
+# Set up GoLang (~/go is go's default GOPATH, so no need to ask `go env`)
 if not test -d ~/go/bin
   mkdir -p ~/go/bin
 end
-
+set -x GOPATH ~/go
 fish_add_path -gPm ~/go/bin
-
-if type -q go
-  set -x GOPATH (go env GOPATH)
-end
 
 # gcloud autocomplete
 if test -f ~/google-cloud-sdk/path.fish.inc
   source ~/google-cloud-sdk/path.fish.inc
 end
 
-# Python set up
-if type -q pyenv
-  source (pyenv init - | psub)
+# Everything below only matters for interactive shells, so skip it for scripts
+if not status is-interactive
+  return
 end
-if type -q vf && ! test -f ~/.config/fish/conf.d/virtualfish-loader.fish
+
+# Python set up
+if command -q pyenv
+  pyenv init - fish | source
+end
+if command -q vf && ! test -f ~/.config/fish/conf.d/virtualfish-loader.fish
   vf install
 end
 
 # macOS's launchd ssh-agent handles keys (with Keychain), so only start our own on Linux
-if test (uname -s) = Linux
+if test $os = Linux
   fish_ssh_agent
 end
-if type -q register-python-argcomplete
-  register-python-argcomplete --shell fish az|grep -v _ARGCOMPLETE_DFS| .
-else if type -q register-python-argcomplete3
-  register-python-argcomplete3 --shell fish az|grep -v _ARGCOMPLETE_DFS| .
-end
+
+abbr -a k kubectl
 
 string match -q "$TERM_PROGRAM" "vscode"
   and . (code --locate-shell-integration-path fish)
-
-
