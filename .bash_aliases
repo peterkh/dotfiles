@@ -1,7 +1,16 @@
-
+alias cls='clear'
+alias grpe='grep'
+alias la='ls -a'
+alias latr='ls -latr'
+alias ll='ls -la'
 alias ls='ls --color=auto'
+alias vi='nvim'
+alias vim='nvim'
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'
 
-alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
+alias brewup='brew update && brew upgrade && brew cleanup && brew doctor'
 
 alias k='kubectl'
 alias ksys='kubectl --namespace=kube-system'
@@ -12,4 +21,3 @@ alias krun='kubectl run --rm --restart=Never --image-pull-policy=IfNotPresent -i
 alias kgsvc='kubectl get service'
 alias kgdep='kubectl get deployment'
 alias kgpo='kubectl get pods'
-

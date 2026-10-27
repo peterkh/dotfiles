@@ -1,0 +1,37 @@
+# Identity is kept out of the repo, since it differs between work and personal
+# machines. install.sh asks for it; to set it by hand:
+#   git config --file ~/.gitconfig.local user.name "Peter Hall"
+#   git config --file ~/.gitconfig.local user.email "you@example.com"
+#   git config --file ~/.gitconfig.personal user.email "you@example.com"  # optional
+[user]
+	# refuse to commit rather than invent an email from the hostname
+	useConfigOnly = true
+[include]
+	path = ~/.gitconfig.local
+# Personal repos use the personal email, even on a work machine. Missing files
+# are ignored, so ~/.gitconfig.personal is only needed where it differs.
+[includeIf "hasconfig:remote.*.url:git@github.com:peterkh/**"]
+	path = ~/.gitconfig.personal
+[includeIf "hasconfig:remote.*.url:https://github.com/peterkh/**"]
+	path = ~/.gitconfig.personal
+
+[init]
+	defaultBranch = main
+[push]
+	autoSetupRemote = true
+[fetch]
+	prune = true
+[diff]
+	algorithm = histogram
+	colorMoved = default
+[merge]
+	conflictStyle = zdiff3
+[rerere]
+	enabled = true
+
+[core]
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true

@@ -70,7 +70,7 @@ if command -q vf && ! test -f ~/.config/fish/conf.d/virtualfish-loader.fish
 end
 
 # macOS's launchd ssh-agent handles keys (with Keychain), so only start our own on Linux
-if test $os = Linux
+if test $os = Linux; and command -q ssh-agent
   fish_ssh_agent
 end
 
