@@ -1,3 +1,7 @@
+# The following lines were added by Docker Desktop to add commands to your PATH.
+export PATH="$PATH:/Users/peter/.docker/bin"
+# End of Docker Desktop section.
+
 switch (uname -s)
 case Darwin
   set HOME_BREW_PREFIX (/opt/homebrew/bin/brew --prefix)
@@ -16,6 +20,7 @@ case Darwin
   set -x PATH "/Applications/Visual Studio Code.app/Contents/Resources/app/bin" $PATH
   set -x PATH /usr/local/share/dotnet $PATH
   set -x PATH ~/.dotnet/tools $PATH
+  set -x PATH ~/.local/bin $PATH
 case Linux
   set -x PATH ~/.local/bin $PATH
   if test -d ~/.pyenv

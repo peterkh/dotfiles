@@ -1,3 +1,7 @@
+# The following lines were added by Docker Desktop to add commands to your PATH.
+export PATH="$PATH:/Users/peter/.docker/bin"
+# End of Docker Desktop section.
+
 # ~/.bash_profile: executed by bash(1) for login shells.
 # see /usr/share/doc/bash/examples/startup-files for examples.
 # the files are located in the bash-doc package.
