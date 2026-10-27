@@ -1,38 +1,32 @@
 # The following lines were added by Docker Desktop to add commands to your PATH.
-export PATH="$PATH:/Users/peter/.docker/bin"
+fish_add_path -gPa ~/.docker/bin
 # End of Docker Desktop section.
 
+# fish_add_path -gPm: edit $PATH directly (not universal fish_user_paths),
+# moving existing entries rather than duplicating them in nested shells
 switch (uname -s)
 case Darwin
   set HOME_BREW_PREFIX (/opt/homebrew/bin/brew --prefix)
-  set -x PATH /usr/local/bin/ $PATH
-  set -x PATH /usr/local/sbin/ $PATH
-  set -x PATH ~/Library/Python/2.7/bin/ $PATH
-  set -x PATH ~/Library/Python/3.7/bin/ $PATH
-  set -x PATH $HOME_BREW_PREFIX/opt/coreutils/libexec/gnubin $PATH
-  set -x PATH $HOME_BREW_PREFIX/opt/grep/libexec/gnubin $PATH
-  set -x PATH $HOME_BREW_PREFIX/opt/postgresql@11/bin $PATH
-  set -x PATH $HOME_BREW_PREFIX/opt/gnu-which/libexec/gnubin $PATH
-  set -x PATH $HOME_BREW_PREFIX/opt/gnu-tar/libexec/gnubin $PATH
-  set -x PATH $HOME_BREW_PREFIX/opt/gnu-sed/libexec/gnubin $PATH
-  set -x PATH $HOME_BREW_PREFIX/bin $PATH
-  set -x PATH $HOME_BREW_PREFIX/sbin $PATH
-  set -x PATH "/Applications/Visual Studio Code.app/Contents/Resources/app/bin" $PATH
-  set -x PATH /usr/local/share/dotnet $PATH
-  set -x PATH ~/.dotnet/tools $PATH
-  set -x PATH ~/.local/bin $PATH
+  fish_add_path -gPm /usr/local/bin
+  fish_add_path -gPm $HOME_BREW_PREFIX/opt/coreutils/libexec/gnubin
+  fish_add_path -gPm $HOME_BREW_PREFIX/opt/grep/libexec/gnubin
+  fish_add_path -gPm $HOME_BREW_PREFIX/opt/gnu-which/libexec/gnubin
+  fish_add_path -gPm $HOME_BREW_PREFIX/opt/gnu-tar/libexec/gnubin
+  fish_add_path -gPm $HOME_BREW_PREFIX/opt/gnu-sed/libexec/gnubin
+  fish_add_path -gPm $HOME_BREW_PREFIX/bin
+  fish_add_path -gPm $HOME_BREW_PREFIX/sbin
+  fish_add_path -gPm "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+  fish_add_path -gPm /usr/local/share/dotnet
+  fish_add_path -gPm ~/.dotnet/tools
+  fish_add_path -gPm ~/.local/bin
 case Linux
-  set -x PATH ~/.local/bin $PATH
+  fish_add_path -gPm ~/.local/bin
   if test -d ~/.pyenv
     set -x PYENV_ROOT $HOME/.pyenv
-    set -x PATH $PYENV_ROOT/bin $PATH
+    fish_add_path -gPm $PYENV_ROOT/bin
   end
-  if test -d /usr/local/go
-    set -x PATH /usr/local/go/bin $PATH
-  end
-  if test -d ~/.dotnet/tools
-    set -x PATH $HOME/.dotnet/tools $PATH
-  end
+  fish_add_path -gPm /usr/local/go/bin
+  fish_add_path -gPm ~/.dotnet/tools
 end
 
 # Set up GEM_HOME
@@ -40,35 +34,28 @@ if not test -d ~/.gem/bin
   mkdir -p ~/.gem/bin
 end
 set -x GEM_HOME ~/.gem
-set -x PATH ~/.gem/bin $PATH
+fish_add_path -gPm ~/.gem/bin
 
 if not test -d ~/bin
   mkdir ~/bin
 end
-set -x PATH ~/bin $PATH
+fish_add_path -gPm ~/bin
 
 # Set up GoLang
 if not test -d ~/go/bin
-  mkdir -p ~/go.bin
+  mkdir -p ~/go/bin
 end
 
-set -x PATH ~/go/bin $PATH
+fish_add_path -gPm ~/go/bin
 
 if type -q go
   set -x GOPATH (go env GOPATH)
-end
-
-# Kube stuff
-if test -d /usr/local/kubebuilder/bin
-  set -x PATH /usr/local/kubebuilder/bin $PATH
 end
 
 # gcloud autocomplete
 if test -f ~/google-cloud-sdk/path.fish.inc
   source ~/google-cloud-sdk/path.fish.inc
 end
-
-status --is-interactive; and fzf_key_bindings
 
 # Python set up
 if type -q pyenv
@@ -78,7 +65,10 @@ if type -q vf && ! test -f ~/.config/fish/conf.d/virtualfish-loader.fish
   vf install
 end
 
-fish_ssh_agent
+# macOS's launchd ssh-agent handles keys (with Keychain), so only start our own on Linux
+if test (uname -s) = Linux
+  fish_ssh_agent
+end
 if type -q register-python-argcomplete
   register-python-argcomplete --shell fish az|grep -v _ARGCOMPLETE_DFS| .
 else if type -q register-python-argcomplete3
